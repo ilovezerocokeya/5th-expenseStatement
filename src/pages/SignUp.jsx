@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { register } from "../lib/api/auth";
@@ -93,12 +93,28 @@ const SignUp = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
+  const [birth, setBirth] = useState("");
+  const [avatar, setAvatar] = useState(null);
+  const [avatarPreview, setAvatarPreview] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (avatar) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatarPreview(reader.result);
+      };
+      reader.readAsDataURL(avatar);
+    } else {
+      setAvatarPreview(null);
+    }
+  }, [avatar]);
 
   const handleRegister = async () => {
     console.log("id", id);
     console.log("password", password);
     console.log("nickname", nickname);
+    console.log("birth", birth);
 
     if (id.length < 4 || id.length > 10) {
       alert("아이디는 4글자 이상 10글자 이내로만 가능합니다.");
@@ -108,8 +124,12 @@ const SignUp = () => {
       alert("비밀번호는 4글자 이상 15글자 이내로만 가능합니다.");
       return;
     }
-    if (nickname.length < 4 || nickname.length > 10) {
-      alert("닉네임은 4글자 이상 10글자 이내로만 가능합니다.");
+    if (nickname.length < 2 || nickname.length > 10) {
+      alert("닉네임은 2글자 이상 10글자 이내로만 가능합니다.");
+      return;
+    }
+    if (birth.length !== 6) {
+      alert("생년월일은 6자리로 입력해주시기 바랍니다.");
       return;
     }
 
@@ -118,6 +138,8 @@ const SignUp = () => {
       id: id,
       password: password,
       nickname: nickname,
+      birth: birth,
+      avatar: avatar,
     });
     if (response) {
       confirm("회원가입이 완료되었습니다.");
@@ -128,6 +150,7 @@ const SignUp = () => {
   return (
     <Container>
       <HomeButton onClick={() => navigate("/")}>Home</HomeButton>
+      {avatarPreview && <UserAvatarPreview src={avatarPreview} alt="Avatar Preview" />}
       <InputGroup>
         <label htmlFor="id">아이디</label>
         <input
@@ -157,8 +180,27 @@ const SignUp = () => {
           id="nickname"
           onChange={(e) => setNickname(e.target.value)}
           placeholder="닉네임을 입력해주세요"
-          minLength="4"
+          minLength="2"
           maxLength="10"
+        />
+      </InputGroup>
+      <InputGroup>
+        <label htmlFor="birth">생년월일</label>
+        <input
+          type="text"
+          id="birth"
+          onChange={(e) => setBirth(e.target.value)}
+          placeholder="생년월일 6자리를 입력해주세요. ex: 920528"
+          maxLength="6"
+        />
+      </InputGroup>
+      <InputGroup>
+        <label htmlFor="avatar">프로필 이미지</label>
+        <input
+          type="file"
+          id="avatar"
+          accept="image/*"
+          onChange={(e) => setAvatar(e.target.files[0])}
         />
       </InputGroup>
       <Button onClick={handleRegister}>회원가입</Button>
