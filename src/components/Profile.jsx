@@ -68,11 +68,18 @@ const UserAvatarPreview = styled.img`
   border: 2px solid #007bff;
 `;
 
-const Profile = ({ user, setUser }) => {
-  const [nickname, setNickname] = useState(user?.nickname || "");
+  const Profile = ({ user, setUser }) => {
+  const [nickname, setNickname] = useState("");
   const [avatar, setAvatar] = useState(null);
-  const [avatarPreview, setAvatarPreview] = useState(user?.avatar || null);
+  const [avatarPreview, setAvatarPreview] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      setNickname(user.nickname);
+      setAvatarPreview(user.avatar);
+    }
+  }, [user]);
 
   useEffect(() => {
     if (avatar) {

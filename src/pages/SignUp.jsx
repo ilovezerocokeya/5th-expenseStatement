@@ -16,7 +16,11 @@ const Container = styled.div`
 
 const InputGroup = styled.div`
   margin-bottom: 1.5rem;
-  width: 100%;
+  width: 95%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  display: flex;
 
   label {
     display: block;
@@ -77,12 +81,11 @@ const HomeButton = styled.button`
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: none;
   border: none;
-  color: #007bff;
+  color: green;
   font-size: 1.5rem;
+  font-weight: bold;
   cursor: pointer;
-  text-decoration: underline;
 
   &:hover {
     color: #0056b3;

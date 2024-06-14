@@ -15,8 +15,12 @@ const Container = styled.div`
 `;
 
 const InputGroup = styled.div`
-  margin-bottom: 1.5rem;
-  width: 100%;
+   margin-bottom: 1.5rem;
+  width: 95%;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  display: flex;
 
   label {
     display: block;

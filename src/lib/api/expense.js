@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const JSON_SERVER_HOST = "http://localhost:4000";
+const JSON_SERVER_HOST = "https://grape-cold-zydeco.glitch.me";
 
 export const getExpenses = async () => {
   try {
